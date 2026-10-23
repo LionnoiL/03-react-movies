@@ -7,11 +7,15 @@ interface MovieModalProps {
   onClose: () => void;
 }
 
-const MovieModal = ({ movie }: MovieModalProps) => {
+const MovieModal = ({ movie, onClose }: MovieModalProps) => {
   return createPortal(
     <div className={css.backdrop} role="dialog" aria-modal="true">
       <div className={css.modal}>
-        <button className={css.closeButton} aria-label="Close modal">
+        <button
+          className={css.closeButton}
+          aria-label="Close modal"
+          onClick={onClose}
+        >
           &times;
         </button>
         <img
