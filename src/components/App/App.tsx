@@ -1,4 +1,4 @@
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import SearchBar from "../SearchBar/SearchBar";
 import css from "./App.module.css";
 import { useEffect, useState } from "react";
@@ -22,6 +22,10 @@ const App = () => {
       try {
         const findedMovies = await fetchMovies(query);
         setMovies(findedMovies);
+        console.log(findedMovies.length);
+        if (findedMovies.length === 0) {
+          toast("No movies found for your request.");
+        }
       } catch (error) {
         console.error(error);
         setHasError(true);
