@@ -6,11 +6,13 @@ import { fetchMovies } from "../../services/movieService";
 import type { Movie } from "../../types/movie";
 import MovieGrid from "../MovieGrid/MovieGrid";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import Loader from "../Loader/Loader";
 
 const App = () => {
   const [query, setQuery] = useState<string>("");
   const [movies, setMovies] = useState<Movie[]>([]);
   const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlerOnSubmit = (query: string) => {
     setQuery(query);
@@ -19,6 +21,7 @@ const App = () => {
   useEffect(() => {
     const getMovies = async () => {
       setHasError(false);
+      setIsLoading(true);
       try {
         const findedMovies = await fetchMovies(query);
         setMovies(findedMovies);
@@ -29,7 +32,7 @@ const App = () => {
         console.error(error);
         setHasError(true);
       } finally {
-        console.log("nop");
+        setIsLoading(false);
       }
     };
 
@@ -42,6 +45,7 @@ const App = () => {
       <SearchBar onSubmit={handlerOnSubmit}></SearchBar>
       {movies.length > 0 ? <MovieGrid movies={movies} /> : null}
       {hasError && <ErrorMessage />}
+      {isLoading && <Loader />}
     </div>
   );
 };
