@@ -20,6 +20,11 @@ const App = () => {
 
   useEffect(() => {
     const getMovies = async () => {
+      if (!query) {
+        return;
+      }
+
+      setMovies([]);
       setHasError(false);
       setIsLoading(true);
       try {
